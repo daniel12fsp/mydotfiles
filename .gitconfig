@@ -1,0 +1,28 @@
+[user]
+	name = Daniel Pereira
+	email = daniel.pereira@kaiostech.com
+[merge]
+	tool = meld
+[push]
+	default = current
+[core]
+	editor = vim
+[fetch]
+	prune = true
+[difftool]
+  	prompt = false
+[alias]
+	co = commit
+	wip = commit -am "WIP"
+	br = branch 
+	ch = checkout
+	chb = checkout -b
+	add = add .
+	st = status
+	di = difftool
+	me = mergetool
+	po = pull origin
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+	last = for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads
