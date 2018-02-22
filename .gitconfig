@@ -32,6 +32,7 @@
 #Remove files .orig used in meld to compare diff
 [mergetool]
 	keepBackup = false
-#Always force new branch get tracking
+#Always force new branch get tracking for rebase and merge
 [branch]
 	autosetuprebase = always
+	autoSetupMerge = always
