@@ -10,10 +10,12 @@
 [fetch]
 	prune = true
 [difftool]
-  	prompt = false
+  	#prompt = false
+[mergetool]
+	keepBackup = false
 [alias]
-	co = commit
-	wip = commit -am "WIP"
+	co = commit -a
+	wip = commit -a -m "WIP"
 	br = branch 
 	ch = checkout
 	chb = checkout -b
