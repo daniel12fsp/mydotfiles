@@ -1,8 +1,10 @@
 [user]
 	name = Daniel Pereira
 	email = daniel.pereira@kaiostech.com
+#Use meld tool as resoluted conflited
 [merge]
 	tool = meld
+#When you use push will always name of branch actual
 [push]
 	default = current
 [core]
@@ -10,12 +12,11 @@
 [fetch]
 	prune = true
 [difftool]
-  	#prompt = false
-[mergetool]
-	keepBackup = false
+	#prompt = false
 [alias]
-	co = commit -a
-	wip = commit -a -m "WIP"
+	fe = fetch
+	co = commit
+	wip = commit -am "WIP"
 	br = branch 
 	ch = checkout
 	chb = checkout -b
@@ -28,3 +29,9 @@
 	type = cat-file -t
 	dump = cat-file -p
 	last = for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads
+#Remove files .orig used in meld to compare diff
+[mergetool]
+	keepBackup = false
+#Always force new branch get tracking
+[branch]
+	autosetuprebase = always
