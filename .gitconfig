@@ -7,6 +7,8 @@
 #When you use push will always name of branch actual
 [push]
 	default = current
+[pull]
+    default = current
 [core]
 	editor = vim
 [fetch]
@@ -32,7 +34,34 @@
 #Remove files .orig used in meld to compare diff
 [mergetool]
 	keepBackup = false
+#Force when you have uncommited file to stash and applied again in the new HEAD
+[rebase]
+  autosquash = true
 #Always force new branch get tracking for rebase and merge
 [branch]
 	autosetuprebase = always
-	autoSetupMerge = always
+#Try this!!!
+# color {{{
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = red reverse
+    local = blue
+    remote = green
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red bold
+    new = green
+    plain = white
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+# }}}
