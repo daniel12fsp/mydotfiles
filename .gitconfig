@@ -1,24 +1,11 @@
 [user]
 	name = Daniel Pereira
-	email = daniel.pereira@kaiostech.com
-#Use meld tool as resoluted conflited
-[merge]
-	tool = meld
-#When you use push will always name of branch actual
-[push]
-	default = current
-[pull]
-    default = current
-[core]
-	editor = vim
-[fetch]
-	prune = true
-[difftool]
-	#prompt = false
+	email = daniel12fsp@yahoo.com.br
 [alias]
+	sync = "!f() { git fetch && git checkout origin/\"$1\" -B \"$1\"; }; f" 
+	wip = !git add -A && git commit -m "WIP" -n
 	fe = fetch
-	co = commit
-	wip = commit -am "WIP"
+	co = commit 
 	br = branch 
 	ch = checkout
 	chb = checkout -b
@@ -27,41 +14,21 @@
 	di = difftool
 	me = mergetool
 	po = pull origin
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-	type = cat-file -t
-	dump = cat-file -p
 	last = for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads
-#Remove files .orig used in meld to compare diff
+	all = log --oneline --graph --all --abbrev-commit 
+
+[diff]
+	tool = meld
+
+[difftool]
+	prompt = false
+
+[merge]
+	tool = meld
+
 [mergetool]
+	prompt = false
 	keepBackup = false
-#Force when you have uncommited file to stash and applied again in the new HEAD
-[rebase]
-  autosquash = true
-#Always force new branch get tracking for rebase and merge
-[branch]
-	autosetuprebase = always
-#Try this!!!
-# color {{{
-[color]
-    branch = auto
-    diff = auto
-    status = auto
 
-[color "branch"]
-    current = red reverse
-    local = blue
-    remote = green
-
-[color "diff"]
-    meta = yellow
-    frag = magenta
-    old = red bold
-    new = green
-    plain = white
-
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
-
-# }}}
+[push]
+	default = current
