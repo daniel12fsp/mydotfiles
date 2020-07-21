@@ -1,0 +1,46 @@
+// force vscode access file = code  --user-data-dir /tmp/
+{
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "workbench.sideBar.location": "right",
+  "workbench.startupEditor": "none",
+  "window.zoomLevel": 1,
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "editor.showFoldingControls": "always",
+  "editor.cursorBlinking": "solid",
+  "editor.fontWeight": "800",
+  "editor.snippetSuggestions": "top",
+  "files.simpleDialog.enable": true,
+  "files.trimFinalNewlines": false,
+  "files.trimTrailingWhitespace": false,
+  "workbench.list.horizontalScrolling": true,
+  "workbench.tree.indent": 15,
+  "window.titleBarStyle": "custom",
+  "window.newWindowDimensions": "fullscreen",
+  "editor.minimap.enabled": false,
+  "terminal.integrated.rendererType": "dom",
+  "workbench.colorTheme": "Bluloco Dark",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  "search.searchOnType": false,
+  "workbench.iconTheme": "vscode-great-icons",
+  "window.customMenuBarAltFocus": true,
+  "window.menuBarVisibility": "toggle",
+  "window.restoreWindows": "none",
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "git.suggestSmartCommit": false,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 5,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true
+  },
+  "editor.mouseWheelScrollSensitivity": 3,
+  "extensions.ignoreRecommendations": true,
+  "editor.semanticTokenColorCustomizations": {
+    "enabled": true // enable semantic highlighting for all themes
+  },
+  "workbench.activityBar.visible": true
+}

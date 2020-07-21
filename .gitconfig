@@ -1,34 +1,33 @@
 [user]
-	name = Daniel Pereira
-	email = daniel12fsp@yahoo.com.br
+  name = Daniel Pereira
+  email = daniel12fsp@yahoo.com.br
+
 [alias]
-	sync = "!f() { git fetch && git checkout origin/\"$1\" -B \"$1\"; }; f" 
-	wip = !git add -A && git commit -m "WIP" -n
-	fe = fetch
-	co = commit 
-	br = branch 
-	ch = checkout
-	chb = checkout -b
-	add = add .
-	st = status
-	di = difftool
-	me = mergetool
-	po = pull origin
-	last = for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads
-	all = log --oneline --graph --all --abbrev-commit 
+  sync = "!f() { git fetch && git checkout origin/\"$1\" -B \"$1\"; }; f" 
+  wip = !git add -A && git commit -m "WIP" -n
+  fe = fetch
+  co = commit 
+  br = branch 
+  ch = checkout
+  chb = checkout -b
+  st = status
+  di = difftool
+  me = mergetool
+  last = for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads
+  all = log --oneline --graph --all --abbrev-commit 
 
 [diff]
-	tool = meld
+  tool = meld
 
 [difftool]
-	prompt = false
+  prompt = false
 
 [merge]
-	tool = meld
+  tool = meld
 
 [mergetool]
-	prompt = false
-	keepBackup = false
+  prompt = false
+  keepBackup = false
 
 [push]
-	default = current
+  default = current

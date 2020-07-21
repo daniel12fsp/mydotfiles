@@ -1,4 +1,0 @@
-# Date Time
-[time]
-command=date +"%a %b(%m)/%d %H:%M(MAO)"
-interval=10

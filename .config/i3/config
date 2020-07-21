@@ -1,0 +1,332 @@
+set $mod Mod4
+set $alt Mod1
+font pango:Ubuntu Bold 10
+
+###############################################################################
+# Launcher dialogs
+###############################################################################
+
+## Launch // Terminal // <> Enter ##
+bindsym $mod+Return exec kitty 
+
+## Launch // Browser // <><Shift> Enter ##
+bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
+
+## Launch // Application // <> Space ##
+bindsym $mod+space exec rofi -show drun
+
+## Launch // Command // <><Shift> Space ##
+bindsym $mod+Shift+space exec rofi -show run
+
+## Navigate // Window by Name // <><Ctrl> Space ##
+bindsym $mod+Ctrl+space exec rofi -show window
+
+###############################################################################
+# Window and Workspace Navigation
+###############################################################################
+
+## Navigate // Relative Window // <> ↑ ↓ ← → ##
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Mode tab
+bindsym $mod+Shift+t layout tabbed
+
+# split in horizontal orientation
+bindsym $mod+Shift+h split h
+
+# split in vertical orientation
+bindsym $mod+Shift+v split v
+
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+## Navigate // Next Workspace // <> Tab ##
+bindsym $mod+Tab workspace next
+
+## Navigate // Next Workspace // <><Alt> → ##
+bindsym $mod+$alt+Right workspace next
+
+## Navigate // Previous Workspace // <><Shift> Tab ##
+bindsym $mod+Shift+Tab workspace prev
+
+## Navigate // Previous Workspace // <><Alt> ← ##
+bindsym $mod+$alt+Left workspace prev
+
+###############################################################################
+# Window and Workspace Configuration
+###############################################################################
+
+## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+## Modify // Containing Workspace // <><Ctrl><Shift> ↑ ↓ ← → ##
+bindsym $mod+Ctrl+Shift+Left move workspace to output left
+bindsym $mod+Ctrl+Shift+Down move workspace to output down
+bindsym $mod+Ctrl+Shift+Up move workspace to output up
+bindsym $mod+Ctrl+Shift+Right move workspace to output right
+
+## Modify // Window Fullscreen Toggle // <> f ##
+bindsym $mod+f fullscreen toggle
+
+## Modify // Window Floating Toggle // <><Shift> f ##
+bindsym $mod+Shift+f floating toggle
+
+## Navigate // Scratchpad // <><Ctrl> a ##
+bindsym $mod+Ctrl+a scratchpad show
+
+## Modify // Move to Scratchpad // <><Ctrl> m ##
+bindsym $mod+Ctrl+m move to scratchpad
+
+## Modify // Window Layout Mode // <> t ##
+bindsym $mod+t layout toggle tabbed splith splitv
+
+## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+###############################################################################
+# Session Management
+###############################################################################
+
+## Session // Exit App // <><Shift> q ##
+bindsym $mod+Shift+q [con_id="__focused__"] kill
+
+## Session // Terminate App // <><Alt> q ##
+bindsym $mod+$alt+q [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
+
+## Session // Reload i3 Config // <><Shift> c ##
+bindsym $mod+Shift+c reload
+
+## Session // Refresh Session // <><Shift> r ##
+bindsym $mod+Shift+r exec --no-startup-id i3-msg restart 
+
+## Session // Restart i3 // <><Ctrl> r ##
+bindsym $mod+Ctrl+r restart
+
+## Session // Logout // <><Shift> e ##
+bindsym $mod+Shift+e exec i3-msg exit
+
+## Session // Reboot // <><Shift> b ##
+bindsym $mod+Shift+b exec /usr/bin/gnome-session-quit --reboot
+
+## Session // Power Down // <><Shift> p ##
+bindsym $mod+Shift+p exec /usr/bin/gnome-session-quit --power-off
+
+## Session // Lock Screen // <> Escape ##
+bindsym $mod+Escape exec dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock
+
+###############################################################################
+# System Management
+###############################################################################
+
+## Modify // Settings // <> c ##
+bindsym $mod+c exec gnome-control-center
+
+## Modify // Display Settings // <> d ##
+bindsym $mod+d exec gnome-control-center display
+
+## Modify // Wifi Settings // <> w ##
+bindsym $mod+w exec gnome-control-center wifi
+
+## Modify // Bluetooth Settings // <> b ##
+bindsym $mod+b exec gnome-control-center bluetooth
+
+## Launch // File Browser // <><Shift> n ##
+bindsym $mod+Shift+n exec /usr/bin/thunar 
+
+## Launch // File Browser // <><Shift> s ##
+bindsym $mod+Shift+s exec pavucontrol
+
+## Launch // Notification Viewer // <> n ##
+bindsym $mod+n exec /usr/bin/rofication-gui
+
+###############################################################################
+# Workspace Management
+###############################################################################
+
+# i3-snapshot for load/save current layout
+## Modify // Save Window Layout // <> , ##
+bindsym $mod+comma  exec /usr/bin/i3-snapshot -o > /tmp/i3-snapshot 
+## Modify // Load Window Layout // <> . ##
+bindsym $mod+period exec /usr/bin/i3-snapshot -c < /tmp/i3-snapshot
+
+# Toggle bar visibility
+## Modify // Toggle Bar // <> i ##
+bindsym $mod+i bar mode toggle
+
+# Cause Settings app to float above tiled windows
+floating_maximum_size -1 x -1
+for_window [class="Gnome-control-center"] floating enable
+
+###############################################################################
+# Window Resize and Gaps
+###############################################################################
+
+## Resize // Enter Resize Mode // <> r ##
+mode "Resize Mode" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  ## Resize // Resize Window // ↑ ↓ ← → ##
+  bindsym Left resize shrink width 6 px or 6 ppt
+  bindsym Down resize grow height 6 px or 6 ppt
+  bindsym Up resize shrink height 6 px or 6 ppt
+  bindsym Right resize grow width 6 px or 6 ppt
+
+  bindsym Shift+Left resize shrink width 12 px or 12 ppt
+  bindsym Shift+Down resize grow height 12 px or 12 ppt
+  bindsym Shift+Up resize shrink height 12 px or 12 ppt
+  bindsym Shift+Right resize grow width 12 px or 12 ppt
+
+  ## Resize // Window Gaps // + - ##
+  bindsym minus gaps inner current minus 6
+  bindsym plus gaps inner current plus 6
+  bindsym Shift+minus gaps inner current minus 12
+  bindsym Shift+plus gaps inner current plus 12
+
+  ## Resize // Exit Resize Mode // Escape or Enter ## 
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "Resize Mode"
+
+###############################################################################
+# i3 Bar
+###############################################################################
+
+bar {
+  font pango:ubuntu Bold 8
+  position bottom
+  tray_output primary
+  status_command bumblebee-status -m \
+    battery nic cpu memory pasink pasource date time\
+        -a battery \
+    -p time.format="%H:%M:%S" date.format="%a %b(%m)/%d" memory.format="{percent:05.02f}%" nic.exclude="lo,virbr,docker,vboxnet,veth,br,anbox0,enp3s0f1" nic.format="{intf} {ip}"\
+          date.left-click="google-chrome-stable https://calendar.google.com/" \
+    -t my-theme
+  colors {
+    background #293241
+    focused_workspace #3d5a80 #3d5a80 #eba660ff #eba660ff
+    active_workspace #3d5a80 #3d5a80 #ffffff #ffffff
+    inactive_workspace #293241 #293241 #ffffff #ffffff
+    urgent_workspace #ee6c4d #ee6c4d #ffffff #ffffff
+    separator #ff0000
+    statusline #ff0000
+  }
+}
+
+###############################################################################
+# i3 Mode to suspend
+###############################################################################
+
+set $Locker i3lock && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Delete mode "$mode_system"
+
+###############################################################################
+# External programs launched with i3
+###############################################################################
+
+# Custom thing
+title_align center
+workspace_layout tabbed
+default_border pixel 1
+default_floating_border pixel 1
+focus_follows_mouse yes
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+hide_edge_borders none
+default_border pixel 0
+
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Slack"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Chrome"] move --no-auto-back-and-forth to workspace $ws1
+for_window [class="Code"] move --no-auto-back-and-forth to workspace $ws3
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Control display backlight
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause  
+bindsym XF86AudioPause exec playerctl play-pause  
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym Print exec gnome-screenshot -i
+
+# Jump to urgent window
+bindsym $mod+x [urgent=latest] focus
+client.focused #3d5a80 #3d5a80 #eba660ff #ff0000
+client.focused_inactive #293241 #293241 #eba660ff #ff0000
+client.unfocused #293241 #293241 #ffffff #ff0000
+client.urgent #ee6c4d #ee6c4d #000000 #ff0000
+
+#bindsym F10 [class="Code"] focus
+#bindsym F11 [class="Google-chrome"] focus
+
+# Enable TODO
+#bindsym $mod+BackSpace [class="Termite"] scratchpad show
+#bindsym $mod+equal [class="keepassx"] scratchpad show
+
+###############################################################################
+# Inicialization
+###############################################################################
+exec --no-startup-id /usr/bin/rofication-daemon
+exec --no-startup-id redshift-gtk
