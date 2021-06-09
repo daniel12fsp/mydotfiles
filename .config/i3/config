@@ -1,13 +1,16 @@
+# xprop
+# xev -event keyboard
+
 set $mod Mod4
 set $alt Mod1
-font pango:Ubuntu Bold 10
+font pango:Chilanka Bold 8
 
 ###############################################################################
 # Launcher dialogs
 ###############################################################################
 
 ## Launch // Terminal // <> Enter ##
-bindsym $mod+Return exec kitty 
+bindsym $mod+Return exec gnome-terminal 
 
 ## Launch // Browser // <><Shift> Enter ##
 bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
@@ -52,11 +55,15 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+set $primary DP-1
+set $secondary eDP-1
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
+
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
@@ -64,20 +71,35 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
+workspace $ws1 output $primary 
+workspace $ws2 output $primary
+workspace $ws3 output $secodary
+workspace $ws4 output $secodary
+
 ## Navigate // Next Workspace // <> Tab ##
-bindsym $mod+Tab workspace next
+bindsym $mod+Tab exec i3-cycle next
 
-## Navigate // Next Workspace // <><Alt> → ##
-bindsym $mod+$alt+Right workspace next
+## Navigate // Next Workspace // <> <Shift> Tab ##
+bindsym $mod+Shift+Tab exec i3-cycle prev
 
-## Navigate // Previous Workspace // <><Shift> Tab ##
-bindsym $mod+Shift+Tab workspace prev
+## Navigate // Next Workspace // <><Control> → ##
+bindsym $mod+Control+Right workspace next
 
-## Navigate // Previous Workspace // <><Alt> ← ##
-bindsym $mod+$alt+Left workspace prev
+## Navigate // Previous Workspace // <><Control> ← ##
+bindsym $mod+Control+Left workspace prev
+
+bindsym mod1+1 exec bash ~/bin/i3-tab.sh 0 
+bindsym mod1+2 exec bash ~/bin/i3-tab.sh 1
+bindsym mod1+3 exec bash ~/bin/i3-tab.sh 2
+bindsym mod1+4 exec bash ~/bin/i3-tab.sh 3
+bindsym mod1+5 exec bash ~/bin/i3-tab.sh 4
+bindsym mod1+6 exec bash ~/bin/i3-tab.sh 5
+bindsym mod1+7 exec bash ~/bin/i3-tab.sh 6
+bindsym mod1+8 exec bash ~/bin/i3-tab.sh 7
+bindsym mod1+9 exec bash ~/bin/i3-tab.sh -1
 
 ###############################################################################
-# Window and Workspace Configuration
+###############################################################################
 ###############################################################################
 
 ## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
@@ -138,18 +160,6 @@ bindsym $mod+Shift+r exec --no-startup-id i3-msg restart
 ## Session // Restart i3 // <><Ctrl> r ##
 bindsym $mod+Ctrl+r restart
 
-## Session // Logout // <><Shift> e ##
-bindsym $mod+Shift+e exec i3-msg exit
-
-## Session // Reboot // <><Shift> b ##
-bindsym $mod+Shift+b exec /usr/bin/gnome-session-quit --reboot
-
-## Session // Power Down // <><Shift> p ##
-bindsym $mod+Shift+p exec /usr/bin/gnome-session-quit --power-off
-
-## Session // Lock Screen // <> Escape ##
-bindsym $mod+Escape exec dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock
-
 ###############################################################################
 # System Management
 ###############################################################################
@@ -167,13 +177,18 @@ bindsym $mod+w exec gnome-control-center wifi
 bindsym $mod+b exec gnome-control-center bluetooth
 
 ## Launch // File Browser // <><Shift> n ##
-bindsym $mod+Shift+n exec /usr/bin/thunar 
+bindsym $mod+Shift+n exec nautilus --new-window
 
 ## Launch // File Browser // <><Shift> s ##
 bindsym $mod+Shift+s exec pavucontrol
 
 ## Launch // Notification Viewer // <> n ##
 bindsym $mod+n exec /usr/bin/rofication-gui
+
+## Launch // edit config // <> n ##
+bindsym $mod+Shift+e exec gedit ~/.config/regolith/i3/config
+
+bindsym $mod+Shift+g exec gedit 
 
 ###############################################################################
 # Workspace Management
@@ -191,7 +206,6 @@ bindsym $mod+i bar mode toggle
 
 # Cause Settings app to float above tiled windows
 floating_maximum_size -1 x -1
-for_window [class="Gnome-control-center"] floating enable
 
 ###############################################################################
 # Window Resize and Gaps
@@ -227,51 +241,13 @@ mode "Resize Mode" {
 bindsym $mod+r mode "Resize Mode"
 
 ###############################################################################
-# i3 Bar
+# Color
 ###############################################################################
 
-bar {
-  font pango:ubuntu Bold 8
-  position bottom
-  tray_output primary
-  status_command bumblebee-status -m \
-    battery nic cpu memory pasink pasource date time\
-        -a battery \
-    -p time.format="%H:%M:%S" date.format="%a %b(%m)/%d" memory.format="{percent:05.02f}%" nic.exclude="lo,virbr,docker,vboxnet,veth,br,anbox0,enp3s0f1" nic.format="{intf} {ip}"\
-          date.left-click="google-chrome-stable https://calendar.google.com/" \
-    -t my-theme
-  colors {
-    background #293241
-    focused_workspace #3d5a80 #3d5a80 #eba660ff #eba660ff
-    active_workspace #3d5a80 #3d5a80 #ffffff #ffffff
-    inactive_workspace #293241 #293241 #ffffff #ffffff
-    urgent_workspace #ee6c4d #ee6c4d #ffffff #ffffff
-    separator #ff0000
-    statusline #ff0000
-  }
-}
-
-###############################################################################
-# i3 Mode to suspend
-###############################################################################
-
-set $Locker i3lock && sleep 1
-
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
-bindsym $mod+Delete mode "$mode_system"
+client.focused #2E3440 #243435 #d37a32 #cf937a
+client.focused_inactive #2E3440 #243435 #CF937A #CF937A
+client.unfocused #2E3440 #243435 #ffffff #cf937a
+client.urgent #d6b2a1 #d6b2a1 #000000 #cf937a
 
 ###############################################################################
 # External programs launched with i3
@@ -289,44 +265,57 @@ floating_modifier $mod
 hide_edge_borders none
 default_border pixel 0
 
-for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Slack"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Chrome"] move --no-auto-back-and-forth to workspace $ws1
-for_window [class="Code"] move --no-auto-back-and-forth to workspace $ws3
-
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+bindsym $mod+Prior exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+Shift+Prior exec pactl set-sink-volume 1 +5%
+bindsym $mod+Next exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+Shift+Next exec pactl set-sink-volume 1 -5%
+bindsym $mod+m exec amixer set Capture toggle
+bindsym $mod+Shift+m exec pactl set-source-volume @DEFAULT_SOURCE@ 30% 
 
 # Control display backlight
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause  
-bindsym XF86AudioPause exec playerctl play-pause  
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec playerctl -p spotify play-pause  
+bindsym Pause exec playerctl -p spotify play-pause  
+bindsym XF86AudioStop exec playerctl -p spotify stop
+bindsym $mod+End exec playerctl -p spotify  next
+bindsym $mod+Home exec playerctl -p spotify previous
 bindsym Print exec gnome-screenshot -i
+bindsym $mod+Print exec peek
+
 
 # Jump to urgent window
-bindsym $mod+x [urgent=latest] focus
-client.focused #3d5a80 #3d5a80 #eba660ff #ff0000
-client.focused_inactive #293241 #293241 #eba660ff #ff0000
-client.unfocused #293241 #293241 #ffffff #ff0000
-client.urgent #ee6c4d #ee6c4d #000000 #ff0000
+#bindsym $mod+x [urgent=latest] focus
+bindsym $mod+x split h, layout splith, focus right, move left, focus left
 
-#bindsym F10 [class="Code"] focus
-#bindsym F11 [class="Google-chrome"] focus
+bindsym $mod+z split h, layout tabbed, focus right, move left, focus left
 
-# Enable TODO
-#bindsym $mod+BackSpace [class="Termite"] scratchpad show
-#bindsym $mod+equal [class="keepassx"] scratchpad show
+
+bindsym $mod+p focus parent
+
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Slack"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="pritunl"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Chrome"] move --no-auto-back-and-forth to workspace $ws1
+for_window [class="discord"] move --no-auto-back-and-forth to workspace $ws5
+# sfor_window [class="Gnome-control-center"] floating enable
+# for_window [class="Gnome-calculator"] floating enable
+
+# xprop
+# xev -event keyboard
+bindsym $mod+Shift+k exec killall java chrome code node
 
 ###############################################################################
 # Inicialization
 ###############################################################################
 exec --no-startup-id /usr/bin/rofication-daemon
-exec --no-startup-id redshift-gtk
+exec --no-startup-id picom -CGb
+exec_always --no-startup-id "bash ~/.config/polybar/launch.sh --forest"
+
