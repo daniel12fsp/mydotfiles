@@ -9,7 +9,9 @@ TMP_FILE="$HOME/.wallpaper/tmp.wallpaper.png"
 FILE="$HOME/.wallpaper/wallpaper.png"
 
 [ -f $TMP_FILE] &&  rm $TMP_FILE
-curl https://source.unsplash.com/1920x1200/\?stars,nature,sea,wather -o $TMP_FILE -L 
+curl 'https://source.unsplash.com/1920x1200//?stars,nature,sea,wather' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36' \
+  --compressed  -o $TMP_FILE -L -v
 
 if [ -f "$TMP_FILE" ]; then
     mv $TMP_FILE $FILE
