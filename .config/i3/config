@@ -127,7 +127,7 @@ bindsym $mod+Ctrl+a scratchpad show
 bindsym $mod+Ctrl+m move to scratchpad
 
 ## Modify // Window Layout Mode // <> t ##
-bindsym $mod+t layout toggle tabbed splith splitv
+#bindsym $mod+t layout toggle tabbed splith splitv
 
 ## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -165,16 +165,15 @@ bindsym $mod+Ctrl+r restart
 ###############################################################################
 
 ## Modify // Settings // <> c ##
-bindsym $mod+c exec gnome-control-center
+bindsym $mod+s exec i3-msg '[class="Slack"] focus'
 
 ## Modify // Display Settings // <> d ##
-bindsym $mod+d exec gnome-control-center display
+bindsym $mod+d exec i3-msg '[class="discord"] focus' 
+bindsym $mod+t exec i3-msg '[class="Thunderbird"] focus'
 
 ## Modify // Wifi Settings // <> w ##
 bindsym $mod+w exec gnome-control-center wifi
 
-## Modify // Bluetooth Settings // <> b ##
-bindsym $mod+b exec gnome-control-center bluetooth
 
 ## Launch // File Browser // <><Shift> n ##
 bindsym $mod+Shift+n exec nautilus --new-window
@@ -184,11 +183,6 @@ bindsym $mod+Shift+s exec pavucontrol
 
 ## Launch // Notification Viewer // <> n ##
 bindsym $mod+n exec /usr/bin/rofication-gui
-
-## Launch // edit config // <> n ##
-bindsym $mod+Shift+e exec gedit ~/.config/regolith/i3/config
-
-bindsym $mod+Shift+g exec gedit 
 
 ###############################################################################
 # Workspace Management
@@ -302,11 +296,10 @@ bindsym $mod+p focus parent
 
 for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws4
 for_window [class="Slack"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="pritunl"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Chrome"] move --no-auto-back-and-forth to workspace $ws1
-for_window [class="discord"] move --no-auto-back-and-forth to workspace $ws5
-# sfor_window [class="Gnome-control-center"] floating enable
-# for_window [class="Gnome-calculator"] floating enable
+for_window [class="discord"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Thunderbird"] move --no-auto-back-and-forth to workspace $ws4
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws5
+for_window [class="pritunl"] move --no-auto-back-and-forth to workspace $ws5
 
 # xprop
 # xev -event keyboard
@@ -316,6 +309,7 @@ bindsym $mod+Shift+k exec killall java chrome code node
 # Inicialization
 ###############################################################################
 exec --no-startup-id /usr/bin/rofication-daemon
-exec --no-startup-id picom -CGb
+exec_always --no-startup-id picom -b
 exec_always --no-startup-id "bash ~/.config/polybar/launch.sh --forest"
+exec --no-startup-id "dbus-launch nm-applet"
 

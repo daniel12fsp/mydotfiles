@@ -46,9 +46,13 @@ alias copy='xclip -selection c'
 alias paste='xclip -selection c -o'
 alias root='cd $(git rev-parse --show-toplevel)'
 alias sbt='./sbt'
+alias k='kubectl'
+
+
 
 autoload bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
+
 
 export PATH="$PATH:`yarn global bin`"
 
@@ -88,4 +92,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 eval "$(starship init zsh)"
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+source $HOME/.cargo/env
 
