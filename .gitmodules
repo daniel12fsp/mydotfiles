@@ -1,0 +1,3 @@
+[submodule "polybar-mic-volume"]
+	path = polybar-mic-volume
+	url = https://github.com/MarcDonald/polybar-mic-volume.git
