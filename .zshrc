@@ -38,8 +38,8 @@ plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
-function docker_rm(){	
- docker kill $(docker ps -q);docker rm $(docker ps -a -q)            	
+function docker_rm(){
+ docker kill $(docker ps -q);docker rm $(docker ps -a -q)
 }
 
 alias copy='xclip -selection c'

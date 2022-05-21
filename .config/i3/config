@@ -1,9 +1,12 @@
+# config: ln ~/me/mydotfiles/.config/i3/config ~/.config/regolith/i3/config
+
 # xprop
 # xev -event keyboard
 
 set $mod Mod4
 set $alt Mod1
-font pango:Chilanka Bold 8
+
+font pango:Chilanka Bold 10
 
 ###############################################################################
 # Launcher dialogs
@@ -55,8 +58,8 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-set $primary DP-1
-set $secondary eDP-1
+set $primary eDP-1
+set $secondary HDMI-2
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -73,14 +76,14 @@ bindsym $mod+0 workspace $ws10
 
 workspace $ws1 output $primary 
 workspace $ws2 output $primary
-workspace $ws3 output $secodary
+workspace $ws3 output $primary
+
 workspace $ws4 output $secodary
+workspace $ws5 output $secodary
+workspace $ws6 output $secodary
 
 ## Navigate // Next Workspace // <> Tab ##
-bindsym $mod+Tab exec i3-cycle next
-
-## Navigate // Next Workspace // <> <Shift> Tab ##
-bindsym $mod+Shift+Tab exec i3-cycle prev
+bindsym $mod+Tab exec /home/dfsp/.nvm/versions/node/v16.14.2/bin/node /home/dfsp/me/mydotfiles/bin/i3-cycle-workspaces-tab.js
 
 ## Navigate // Next Workspace // <><Control> → ##
 bindsym $mod+Control+Right workspace next
@@ -88,15 +91,15 @@ bindsym $mod+Control+Right workspace next
 ## Navigate // Previous Workspace // <><Control> ← ##
 bindsym $mod+Control+Left workspace prev
 
-bindsym mod1+1 exec bash ~/bin/i3-tab.sh 0 
-bindsym mod1+2 exec bash ~/bin/i3-tab.sh 1
-bindsym mod1+3 exec bash ~/bin/i3-tab.sh 2
-bindsym mod1+4 exec bash ~/bin/i3-tab.sh 3
-bindsym mod1+5 exec bash ~/bin/i3-tab.sh 4
-bindsym mod1+6 exec bash ~/bin/i3-tab.sh 5
-bindsym mod1+7 exec bash ~/bin/i3-tab.sh 6
-bindsym mod1+8 exec bash ~/bin/i3-tab.sh 7
-bindsym mod1+9 exec bash ~/bin/i3-tab.sh -1
+bindsym mod1+1 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 0 
+bindsym mod1+2 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 1
+bindsym mod1+3 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 2
+bindsym mod1+4 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 3
+bindsym mod1+5 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 4
+bindsym mod1+6 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 5
+bindsym mod1+7 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 6
+bindsym mod1+8 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 7
+bindsym mod1+9 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh -1
 
 ###############################################################################
 ###############################################################################
@@ -167,9 +170,6 @@ bindsym $mod+Ctrl+r restart
 ## Modify // Settings // <> c ##
 bindsym $mod+s exec i3-msg '[class="Slack"] focus'
 
-## Modify // Display Settings // <> d ##
-bindsym $mod+d exec i3-msg '[class="discord"] focus' 
-bindsym $mod+t exec i3-msg '[class="Thunderbird"] focus'
 
 ## Modify // Wifi Settings // <> w ##
 bindsym $mod+w exec gnome-control-center wifi
@@ -179,7 +179,7 @@ bindsym $mod+w exec gnome-control-center wifi
 bindsym $mod+Shift+n exec nautilus --new-window
 
 ## Launch // File Browser // <><Shift> s ##
-bindsym $mod+Shift+s exec pavucontrol
+bindsym $mod+Shift+s exec gnome-control-center sound
 
 ## Launch // Notification Viewer // <> n ##
 bindsym $mod+n exec /usr/bin/rofication-gui
@@ -187,12 +187,6 @@ bindsym $mod+n exec /usr/bin/rofication-gui
 ###############################################################################
 # Workspace Management
 ###############################################################################
-
-# i3-snapshot for load/save current layout
-## Modify // Save Window Layout // <> , ##
-bindsym $mod+comma  exec /usr/bin/i3-snapshot -o > /tmp/i3-snapshot 
-## Modify // Load Window Layout // <> . ##
-bindsym $mod+period exec /usr/bin/i3-snapshot -c < /tmp/i3-snapshot
 
 # Toggle bar visibility
 ## Modify // Toggle Bar // <> i ##
@@ -270,6 +264,7 @@ bindsym $mod+Next exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym $mod+Shift+Next exec pactl set-sink-volume 1 -5%
 bindsym $mod+m exec amixer set Capture toggle
 bindsym $mod+Shift+m exec pactl set-source-volume @DEFAULT_SOURCE@ 30% 
+bindsym $mod+Shift+Delete exec systemctl poweroff -i
 
 # Control display backlight
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -294,12 +289,8 @@ bindsym $mod+z split h, layout tabbed, focus right, move left, focus left
 
 bindsym $mod+p focus parent
 
-for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Slack"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="discord"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Thunderbird"] move --no-auto-back-and-forth to workspace $ws4
-for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws5
-for_window [class="pritunl"] move --no-auto-back-and-forth to workspace $ws5
+for_window [class="rambox"] move --no-auto-back-and-forth to workspace $ws3
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws3
 
 # xprop
 # xev -event keyboard
@@ -310,6 +301,6 @@ bindsym $mod+Shift+k exec killall java chrome code node
 ###############################################################################
 exec --no-startup-id /usr/bin/rofication-daemon
 exec_always --no-startup-id picom -b
-exec_always --no-startup-id "bash ~/.config/polybar/launch.sh --forest"
+exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_start.sh
 exec --no-startup-id "dbus-launch nm-applet"
 
