@@ -41,7 +41,7 @@ async function main() {
     try {
         const wallpapersStream = await getWallpaperStream();
         const wallpapersRestResponse = JSON.parse(await streamToString(wallpapersStream))
-        const wallpapers = wallpapersRestResponse.data.children.filter(isValidImage).slice(0,1).map(i => i.data.url_overridden_by_dest)
+        const wallpapers = wallpapersRestResponse.data.children.filter(isValidImage).slice(0,2).map(i => i.data.url_overridden_by_dest)
         const homePath = process.env.HOME
 
         const wallpaperPaths = wallpapers.map(async (wallpaper, i)=> {
@@ -51,11 +51,9 @@ async function main() {
             await saveFile(wallpaperStream, wallpaperFile)
             return wallpaperFile
         })
-
         const paths = await Promise.all(wallpaperPaths)
-        paths.forEach( (wallpaperPath,i) => execSync(`gsettings set org.gnome.desktop.background picture-uri "file://${wallpaperPath}"` ))
-        paths.forEach( (wallpaperPath,i) => execSync(`gsettings set org.gnome.desktop.screensaver picture-uri file://${wallpaperPath}` ))
-
+        // execSync(`feh --bg-fill ${paths[0]} --bg-fill ${paths[1]}`)
+        console.log(paths.join(";"))
     } catch (error) {
         console.log(error)
     }

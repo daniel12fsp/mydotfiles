@@ -1,0 +1,3 @@
+
+# xprop
+# xev -event keyboard

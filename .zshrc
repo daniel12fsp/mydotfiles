@@ -93,7 +93,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 eval "$(starship init zsh)"
 
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.local/bin:$PATH"
 
 source $HOME/.cargo/env
 

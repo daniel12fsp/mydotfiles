@@ -1,8 +1,5 @@
 # config: ln ~/me/mydotfiles/.config/i3/config ~/.config/regolith/i3/config
 
-# xprop
-# xev -event keyboard
-
 set $mod Mod4
 set $alt Mod1
 
@@ -182,7 +179,7 @@ bindsym $mod+Shift+n exec nautilus --new-window
 bindsym $mod+Shift+s exec gnome-control-center sound
 
 ## Launch // Notification Viewer // <> n ##
-bindsym $mod+n exec /usr/bin/rofication-gui
+bindsym $mod+n exec /home/dfsp/.local/bin/rofication-gui
 
 ###############################################################################
 # Workspace Management
@@ -272,13 +269,10 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl -p spotify play-pause  
-bindsym Pause exec playerctl -p spotify play-pause  
+bindsym Pause exec /home/dfsp/.nvm/versions/node/v16.14.2/bin/node /home/dfsp/me/mydotfiles/bin/spotify.js 
 bindsym XF86AudioStop exec playerctl -p spotify stop
 bindsym $mod+End exec playerctl -p spotify  next
 bindsym $mod+Home exec playerctl -p spotify previous
-bindsym Print exec gnome-screenshot -i
-bindsym $mod+Print exec peek
-
 
 # Jump to urgent window
 #bindsym $mod+x [urgent=latest] focus
@@ -290,7 +284,7 @@ bindsym $mod+z split h, layout tabbed, focus right, move left, focus left
 bindsym $mod+p focus parent
 
 for_window [class="rambox"] move --no-auto-back-and-forth to workspace $ws3
-for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws3
+for_window [class="Spotify"] move workspace $ws3
 
 # xprop
 # xev -event keyboard
@@ -299,8 +293,18 @@ bindsym $mod+Shift+k exec killall java chrome code node
 ###############################################################################
 # Inicialization
 ###############################################################################
-exec --no-startup-id /usr/bin/rofication-daemon
+exec --no-startup-id /home/dfsp/.local/bin/rofication-daemon
 exec_always --no-startup-id picom -b
-exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_start.sh
+exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_polybar.sh
 exec --no-startup-id "dbus-launch nm-applet"
 
+@REM exec_always ~/.nvm/versions/node/v16.14.2/bin/node  ~/me/mydotfiles/bin/wallpaper.js
+
+# https://gist.github.com/dianjuar/ee774561a8bc02b077989bc17424a19f
+
+## Clipboard Screenshots
+bindsym Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
+bindsym Ctrl+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+
+# Change title name
+for_window [class=".*"] title_format <i>[%class]</i> %title
