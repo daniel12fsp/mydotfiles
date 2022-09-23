@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+// const execSync = require('child_process').exec;
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+function streamToString (stream) {
+    return new Promise((resolve, reject) => {
+        const chunks = []
+        stream.on('data', chunk => chunks.push(chunk))
+        stream.on('error', reject)
+        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf-8')))
+    })
+}
+
+function goto (x, y) {
+    // process.stdout.write("\x1b[2K");
+    // process.stdout.write("\x1b[2J");
+    process.stdout.write("\u001b[2K\u001b[K");
+
+    
+    
+}
+
+function print (txt) {
+    process.stdout.write(txt);
+}
+
+async function main() {
+    const stdin = process.openStdin();
+    const str = await streamToString(stdin)
+    const input = str.split("\n")
+    const [customCmd]  = process.argv.slice(2)
+    let sucess= 0, failed=0;
+    const percentage = ((sucess+ failed)/input.length)*100
+    const message = `Progress${percentage}% \t Success:${sucess}\t Failed:${failed}`
+    // goto(0,0);
+    print(message);
+    await Promise.all(input.map(async line => {
+        const cmd = customCmd.replace("#", line);
+        try {
+            // await exec(cmd);
+            await new Promise((resolve) => {setTimeout(resolve, 1000)})
+            sucess++
+        } catch (error) {
+            console.log(`error ${cmd}\n${error}`);
+            failed++
+        } finally {
+            goto(0,0);
+            const percentage = ((sucess+ failed)/input.length)*100
+            const message = `Progress${percentage}% \t Success:${sucess}\t Failed:${failed}`
+            print(message);
+        }
+ 
+    }))
+
+}
+
+main()
+

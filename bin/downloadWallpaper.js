@@ -4,8 +4,6 @@ const https = require('https');
 const fs = require('fs');
 const execSync = require('child_process').execSync;
 
-const displays = ["eDP-1","eHDMI-1"]
-
 function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {
@@ -37,13 +35,13 @@ function isValidImage(i) {
     return data.url_overridden_by_dest && width > height
 }
 
-async function main() {
+async function downloadWallpaper() {
     try {
         const wallpapersStream = await getWallpaperStream();
         const wallpapersRestResponse = JSON.parse(await streamToString(wallpapersStream))
         const wallpapers = wallpapersRestResponse.data.children.filter(isValidImage).slice(0,2).map(i => i.data.url_overridden_by_dest)
         const homePath = process.env.HOME
-
+        const displays = execSync(`xrandr --listmonitors | awk '{print $4}'`).toString().trim().split("\n");
         const wallpaperPaths = wallpapers.map(async (wallpaper, i)=> {
             const wallpaperStream = await downloadImage(wallpaper)
             const extension = wallpaper.split(".").pop()
@@ -52,13 +50,18 @@ async function main() {
             return wallpaperFile
         })
         const paths = await Promise.all(wallpaperPaths)
-        // execSync(`feh --bg-fill ${paths[0]} --bg-fill ${paths[1]}`)
-        console.log(paths.join(";"))
+        console.log(`feh --bg-fill ${paths[0]} --bg-fill ${paths[1]}`)
+        console.log("hheheh")
+        execSync(`feh --bg-fill ${paths[0]} --bg-fill ${paths[1]}`)
+        return paths.map((path, i) => ({
+            path,
+            display:displays[i]
+        }))
     } catch (error) {
         console.log(error)
     }
 }
 
-main()
 
 
+module.exports=downloadWallpaper

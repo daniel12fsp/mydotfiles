@@ -1,26 +1,19 @@
 #!/usr/bin/env bash
-set -x
+# set -x
+
+# Terminate already running bar instances
+killall -q polybar
 
 # Add this script to your wm startup file.
 
-DIR="$HOME/.config/polybar/forest"
+# POLYBAR_SCRIPT=`~/.nvm/versions/node/v16.14.2/bin/node  ~/me/mydotfiles/bin/launch_polybar.js`
+POLYBAR_SCRIPT='MONITOR=eDP-1 polybar -c /home/dfsp/me/mydotfiles/bin/config_eDP-1.ini\nMONITOR=HDMI-2 polybar -c /home/dfsp/me/mydotfiles/bin/config_HDMI-2.ini'
 
-
-IMAGES=`~/.nvm/versions/node/v16.14.2/bin/node  ~/me/mydotfiles/bin/wallpaper.js`
-
-IMAGES=`echo "pathA;pathB"`
-
-for i in $(echo $IMAGES | tr ";" "\n")
+echo "--"
+echo $POLYBAR_SCRIPT;
+IFS="\\n"
+for i in $(echo $POLYBAR_SCRIPT )
 do
-  echo $i;
+  echo "$i &";
+  # bash -c "$i &";
 done
-
-# # Terminate already running bar instances
-# killall -q polybar
-
-# # Wait until the processes have been shut down
-# while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
-
-# # Launch the bar
-
-# xrandr --listmonitors | awk '{print $4}'| xargs --no-run-if-empty  -P 0 -n 1 -I{} sh -c 'MONITOR={} polybar'

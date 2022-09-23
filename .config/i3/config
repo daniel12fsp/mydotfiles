@@ -295,10 +295,12 @@ bindsym $mod+Shift+k exec killall java chrome code node
 ###############################################################################
 exec --no-startup-id /home/dfsp/.local/bin/rofication-daemon
 exec_always --no-startup-id picom -b
-exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_polybar.sh
+#exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_polybar.sh
 exec --no-startup-id "dbus-launch nm-applet"
 
-@REM exec_always ~/.nvm/versions/node/v16.14.2/bin/node  ~/me/mydotfiles/bin/wallpaper.js
+# exec_always ~/.nvm/versions/node/v16.14.2/bin/node  ~/me/mydotfiles/bin/wallpaper.js
+
+exec_always ~/.nvm/versions/node/v16.14.2/bin/node  /home/dfsp/me/mydotfiles/bin/launch_polybar.js
 
 # https://gist.github.com/dianjuar/ee774561a8bc02b077989bc17424a19f
 
