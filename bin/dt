@@ -1,0 +1,14 @@
+#!/usr/local/bin/node
+console.log(process.cwd());
+console.log(process.argv.slice(2));
+const fs = require("fs");
+const { execSync } = require("node:child_process");
+const srcPath = `${process.cwd()}/src`;
+const nextFolder = fs
+  .readdirSync(srcPath, {
+    withFileTypes: true,
+  })
+  .reduce((acc, a) => a.name, 0);
+
+const nextProjectPath = console.log({ nextFolder });
+// execSync('"/path/to/test file/test.sh" arg1 arg2');

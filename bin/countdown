@@ -1,0 +1,46 @@
+#!/usr/bin/env -S node
+
+const execSync = require("child_process").execSync;
+
+function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  const padString = (t) => t.toString().padStart(2, "0");
+  return `${padString(hours)}:${padString(minutes)}:${padString(secs)}`;
+}
+
+const countdown = async (seconds) => {
+  let count = seconds;
+
+  return new Promise((resolve, reject) => {
+    const timer = setInterval(() => {
+      console.clear();
+      console.log(formatTime(count));
+      changeTerminalTitle(formatTime(count));
+      count--;
+      if (count < 0) {
+        clearInterval(timer);
+        resolve();
+      }
+    }, 1000);
+  });
+};
+
+const changeTerminalTitle = (title) =>
+  process.stdout.write("\x1b]2;" + title + "\x1b\x5c");
+
+async function main() {
+  const timeString = process.argv[2];
+
+  const [hours = 0, minutes = 0, seconds = 0] = timeString
+    .split(":")
+    .map(Number);
+  const time = hours * 3600 + minutes * 60 + seconds;
+  await countdown(time);
+  execSync(`notify-send 'countdown done'`);
+  execSync(`brave-browser https://www.youtube.com/watch\?v\=NASqUELHjPE`);
+}
+
+main();

@@ -1,6 +1,7 @@
 # ln ~/me/mydotfiles/.zshrc ~/
 
 export ZSH="$HOME/.oh-my-zsh"
+export SHOW_REQUEST_ERRORS="true"
 export ZSH_THEME="robbyrussell"
 plugins=(git)
 
@@ -20,8 +21,7 @@ compinit
 # Variables
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.tools/nvim-linux64/bin:$PATH:/home/daniel/.local/bin:$HOME/.krew/bin:$HOME/node_modules/.bin/:$HOME/.phpenv/bi
-
-export PATH=/usr/local/aws/bin:$HOME/.cargo/bin:$HOME/.tree-sitter/:$PATH
+export PATH=/usr/local/aws/bin:$HOME/.cargo/bin:$HOME/.tree-sitter/:/home/dfsp/.local/bin:$PATH
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -38,7 +38,6 @@ function docker_rm(){
 alias copy='xclip -selection c'
 alias paste='xclip -selection c -o'
 alias root='cd $(git rev-parse --show-toplevel)'
-alias sbt='./sbt'
 alias k='kubectl'
 
 
@@ -82,4 +81,12 @@ export PATH="$HOME/me/mydotfiles/bin:$PATH"
 
 source $HOME/.cargo/env
 
-echo "aqui"
+alias nuget="mono /usr/local/bin/nuget.exe"
+
+
+export PATH=$PATH:/usr/local/go/bin
+
+# pnpm
+export PNPM_HOME="/home/dfsp/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

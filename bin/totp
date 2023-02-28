@@ -1,0 +1,23 @@
+#!/usr/bin/env -S deno run
+
+import otpts from "npm:otpts@^2.0.0";
+
+function htop({ secret, ...props }) {
+  const base32Decode = otpts.base32Decode(secret);
+  const hotp = otpts.buildTotp({
+    secret: base32Decode,
+  });
+
+  const code = hotp.generate();
+
+  return {
+    ...props,
+    code,
+  };
+}
+
+const codes = [
+  
+].map(htop);
+
+console.table(codes);

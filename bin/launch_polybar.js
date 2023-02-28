@@ -2,9 +2,8 @@ const downloadWallpaper = require("./downloadWallpaper");
 const vibrant = require("node-vibrant");
 const fs = require("fs");
 const { execSync, spawn } = require("child_process");
-const getColors = require("get-image-colors");
 
-async function main() {
+function killPolybar() {
   try {
     execSync(`pidof polybar`);
     execSync(`killall -q polybar`);
@@ -12,6 +11,10 @@ async function main() {
   } catch (error) {
     console.log(error);
   }
+}
+
+async function main() {
+  killPolybar();
 
   const displays = execSync(`xrandr --listmonitors | awk '{print $4}'`)
     .toString()
@@ -40,8 +43,6 @@ async function main() {
 
   const wallpapers = await downloadWallpaper();
 
-  console.log("downloadWallpaper");
-
   wallpapers.forEach(async ({ path, display }) => {
     console.log(path);
     // console.log(pallete.Vibrant.hex)
@@ -65,5 +66,7 @@ async function main() {
     `.trim() + "\n";
   });
 }
+
+
 
 main();

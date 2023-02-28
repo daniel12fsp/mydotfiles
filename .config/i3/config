@@ -13,7 +13,10 @@ font pango:Chilanka Bold 10
 bindsym $mod+Return exec gnome-terminal 
 
 ## Launch // Browser // <><Shift> Enter ##
-bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
+bindsym $mod+Shift+Return exec brave-browser --profile-directory="Default"
+
+## Launch // Browser // <><Shift> Enter ##
+bindsym $mod+Ctrl+Return exec firefox
 
 ## Launch // Application // <> Space ##
 bindsym $mod+space exec rofi -show drun
@@ -307,6 +310,7 @@ exec_always ~/.nvm/versions/node/v16.14.2/bin/node  /home/dfsp/me/mydotfiles/bin
 ## Clipboard Screenshots
 bindsym Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
 bindsym Ctrl+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
 
 # Change title name
 for_window [class=".*"] title_format <i>[%class]</i> %title
