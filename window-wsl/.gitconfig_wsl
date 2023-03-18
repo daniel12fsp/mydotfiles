@@ -1,0 +1,15 @@
+[diff]
+  tool = meld
+  prompt = false
+
+[difftool "meld"]
+  path = "/mnt/c/Program Files/Meld/Meld.exe" 
+
+[merge]
+  tool = meld
+  prompt = false
+
+[mergetool "meld"]
+  keepBackup = false
+  path = "/mnt/c/Program Files/Meld/Meld.exe" 
+
