@@ -1,0 +1,70 @@
+{
+    "git.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.minimap.enabled": false,
+    "explorer.confirmDelete": false,
+    "redhat.telemetry.enabled": true,
+    "window.restoreWindows": "none",
+    "editor.renderWhitespace": "all",
+    "terminal.integrated.shellIntegration.suggestEnabled": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features",
+      "editor.formatOnSave": true
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[html]": {
+      "editor.defaultFormatter": "vscode.html-language-features",
+      "editor.formatOnSave": false
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+      "editor.formatOnSave": false,
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "terminal.integrated.tabs.title": "${workspaceFolder}${separator}${process}",
+    "[java]": {
+      "editor.defaultFormatter": "redhat.java"
+    },
+  
+    "editor.foldingImportsByDefault": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "git.openRepositoryInParentFolders": "never",
+    "[sql]": {
+      "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+    },
+    "debug.toolBarLocation": "floating",
+    "[xml]": {
+      "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "debug.onTaskErrors": "showErrors",
+    "debug.autoExpandLazyVariables": true,
+    "task.problemMatchers.neverPrompt": {
+      "shell": true
+    },
+    "workbench.sideBar.location": "right",
+    "[css]": {
+      "editor.defaultFormatter": "vscode.css-language-features"
+    }
+    
+  }

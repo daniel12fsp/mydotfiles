@@ -1,0 +1,122 @@
+{
+    "folders": [
+        {
+            "path": "project_folder"
+        },
+    ],
+    "settings": {
+        "git.openRepositoryInParentFolders": "never",
+        "java.configuration.updateBuildConfiguration": "interactive",
+        "java.compile.nullAnalysis.mode": "automatic",
+        "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable",
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "java",
+                "name": "WildFly localhost",
+                "request": "attach",
+                "hostName": "localhost",
+                "projectName": "spj-ear",
+                "port": "8787"
+            },
+            {
+                "type": "java",
+                "name": "[Build] WildFly localhost",
+                "request": "attach",
+                "preLaunchTask": "Build and Move",
+                "hostName": "localhost",
+                "port": "8787"
+            },
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "windows": {
+            "options": {
+                "shell": {
+                    "executable": "pwsh.exe",
+                    "args": [
+                        "-Command",
+                    ],
+                    
+                },                    
+            }
+        },
+        "tasks": [
+            {
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "shared",
+                },
+                "label": "[serve][ctj]",
+                "type": "shell",
+                "command": "npm run start -- --port 4200 --base-href /ctj",
+            },
+            {
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "shared",
+                    "clear": true,
+                    "showReuseMessage": false,
+                    "group": "build and deploy"
+                },
+                "label": "Remove Jar",
+                "type": "shell",
+                // "command": "ls /wildfly-14.0.0.Final/standalone/deployments/ | xargs -I {} rm /wildfly-14.0.0.Final/standalone/deployments/{}",
+                "command": "Get-ChildItem -Path \"C:\\wildfly-14.0.0.Final\\standalone\\deployments\" | Remove-Item -Force",
+                "group": "build",
+            },
+            {
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "shared",
+                    "group": "build and deploy"
+                },
+                "label": "Build Jar",
+                "type": "shell",
+                "command": "./mvnw -gs \"C:\\settings.xml\" -gs clean package -U -DskipTests",
+                "options": {
+                    "cwd": "../back-end"
+                },
+                "group": "build",
+                "dependsOn": [
+                    "Remove Jar"
+                ],
+            },
+            {
+                "label": "Move File",
+                "type": "shell",
+                "command": "mv \"C:\\target\\ctj-1.0.0-SNAPSHOT.war\" \"C:\\wildfly-14.0.0.Final\\standalone\\deployments\"",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "shared",
+                    "group": "build and deploy"
+                },
+                "dependsOn": [
+                    "Build Jar"
+                ],
+                "problemMatcher": []
+            },
+            {
+                "label": "Build and Move",
+                "dependsOn": [
+                    "Remove Jar",
+                    "Build Jar",
+                    "Move File"
+                ],
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "shared",
+                    "group": "build and deploy"
+                },
+                "group": {
+                    "kind": "build",
+                    "isDefault": true,
+                },
+                "problemMatcher": []
+            }
+        ]
+    }
+}
