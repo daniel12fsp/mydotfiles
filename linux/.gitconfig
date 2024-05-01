@@ -1,3 +1,4 @@
+; ln ~/code/personal/mydotfiles/linux/.gitconfig ~/.gitconfig
 [user]
   name = Daniel Pereira
   email = daniel12fsp@yahoo.com.br

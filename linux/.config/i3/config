@@ -1,138 +1,137 @@
-# config: ln ~/me/mydotfiles/.config/i3/config ~/.config/regolith/i3/config
-
-# xprop
-# xev -event keyboard
+# config: ln ~/code/personal/mydotfiles/linux/.config/i3/config ~/.config/i3/config 
 
 set $mod Mod4
-set $alt Mod1
+set $primary HDMI-0
+set $secondary DP-4
 
-font pango:Chilanka Bold 10
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace, FontAwesome 8
 
-###############################################################################
-# Launcher dialogs
-###############################################################################
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
 
-## Launch // Terminal // <> Enter ##
-bindsym $mod+Return exec gnome-terminal 
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
 
-## Launch // Browser // <><Shift> Enter ##
-bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
 
-## Launch // Application // <> Space ##
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+#exec --no-startup-id nm-applet
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# move tiling windows via drag & drop by left-clicking into the title bar,
+# or left-clicking anywhere into the window while holding the floating modifier.
+#tiling_drag modifier titlebar
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
 bindsym $mod+space exec rofi -show drun
 
-## Launch // Command // <><Shift> Space ##
-bindsym $mod+Shift+space exec rofi -show run
+# A more modern dmenu replacement is rofi:
+# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
+# There also is i3-dmenu-desktop which only displays applications shipping a
+# .desktop file. It is a wrapper around dmenu, so you need that installed.
+# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
-## Navigate // Window by Name // <><Ctrl> Space ##
-bindsym $mod+Ctrl+space exec rofi -show window
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+ccedilla focus right
 
-###############################################################################
-# Window and Workspace Navigation
-###############################################################################
-
-## Navigate // Relative Window // <> ↑ ↓ ← → ##
+# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# Mode tab
-bindsym $mod+Shift+t layout tabbed
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+ccedilla move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+Shift+h split h
+bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+Shift+v split v
+bindsym $mod+v split v
 
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+a+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "6"
+set $ws6 "6:"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-set $primary eDP-1
-set $secondary HDMI-2
-
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
 
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
-
-workspace $ws1 output $primary 
-workspace $ws2 output $primary
-workspace $ws3 output $primary
-
-workspace $ws4 output $secodary
-workspace $ws5 output $secodary
-workspace $ws6 output $secodary
-
-## Navigate // Next Workspace // <> Tab ##
-bindsym $mod+Tab exec /home/dfsp/.nvm/versions/node/v16.14.2/bin/node /home/dfsp/me/mydotfiles/bin/i3-cycle-workspaces-tab.js
-
-## Navigate // Next Workspace // <><Control> → ##
-bindsym $mod+Control+Right workspace next
-
-## Navigate // Previous Workspace // <><Control> ← ##
-bindsym $mod+Control+Left workspace prev
-
-bindsym mod1+1 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 0 
-bindsym mod1+2 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 1
-bindsym mod1+3 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 2
-bindsym mod1+4 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 3
-bindsym mod1+5 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 4
-bindsym mod1+6 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 5
-bindsym mod1+7 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 6
-bindsym mod1+8 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh 7
-bindsym mod1+9 exec bash /home/dfsp/me/mydotfiles/bin/i3-tab.sh -1
-
-###############################################################################
-###############################################################################
-###############################################################################
-
-## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-## Modify // Containing Workspace // <><Ctrl><Shift> ↑ ↓ ← → ##
-bindsym $mod+Ctrl+Shift+Left move workspace to output left
-bindsym $mod+Ctrl+Shift+Down move workspace to output down
-bindsym $mod+Ctrl+Shift+Up move workspace to output up
-bindsym $mod+Ctrl+Shift+Right move workspace to output right
-
-## Modify // Window Fullscreen Toggle // <> f ##
-bindsym $mod+f fullscreen toggle
-
-## Modify // Window Floating Toggle // <><Shift> f ##
-bindsym $mod+Shift+f floating toggle
-
-## Navigate // Scratchpad // <><Ctrl> a ##
-bindsym $mod+Ctrl+a scratchpad show
-
-## Modify // Move to Scratchpad // <><Ctrl> m ##
-bindsym $mod+Ctrl+m move to scratchpad
-
-## Modify // Window Layout Mode // <> t ##
-#bindsym $mod+t layout toggle tabbed splith splitv
-
-## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
+# move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -144,163 +143,82 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-###############################################################################
-# Session Management
-###############################################################################
+workspace $ws1 output $primary 
+workspace $ws2 output $primary
+workspace $ws3 output $primary
 
-## Session // Exit App // <><Shift> q ##
-bindsym $mod+Shift+q [con_id="__focused__"] kill
+workspace $ws4 output $secodary
+workspace $ws5 output $secodary
+workspace $ws6 output $secodary
 
-## Session // Terminate App // <><Alt> q ##
-bindsym $mod+$alt+q [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
+#for_window [urgent="latest"] focus 
 
-## Session // Reload i3 Config // <><Shift> c ##
+# reload the configuration file
 bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-## Session // Refresh Session // <><Shift> r ##
-bindsym $mod+Shift+r exec --no-startup-id i3-msg restart 
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
 
-## Session // Restart i3 // <><Ctrl> r ##
-bindsym $mod+Ctrl+r restart
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym ccedilla resize grow width 10 px or 10 ppt
 
-###############################################################################
-# System Management
-###############################################################################
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
-## Modify // Settings // <> c ##
-bindsym $mod+s exec i3-msg '[class="Slack"] focus'
-
-
-## Modify // Wifi Settings // <> w ##
-bindsym $mod+w exec gnome-control-center wifi
-
-
-## Launch // File Browser // <><Shift> n ##
-bindsym $mod+Shift+n exec nautilus --new-window
-
-## Launch // File Browser // <><Shift> s ##
-bindsym $mod+Shift+s exec gnome-control-center sound
-
-## Launch // Notification Viewer // <> n ##
-bindsym $mod+n exec /usr/bin/rofication-gui
-
-###############################################################################
-# Workspace Management
-###############################################################################
-
-# Toggle bar visibility
-## Modify // Toggle Bar // <> i ##
-bindsym $mod+i bar mode toggle
-
-# Cause Settings app to float above tiled windows
-floating_maximum_size -1 x -1
-
-###############################################################################
-# Window Resize and Gaps
-###############################################################################
-
-## Resize // Enter Resize Mode // <> r ##
-mode "Resize Mode" {
-  # These bindings trigger as soon as you enter the resize mode
-
-  ## Resize // Resize Window // ↑ ↓ ← → ##
-  bindsym Left resize shrink width 6 px or 6 ppt
-  bindsym Down resize grow height 6 px or 6 ppt
-  bindsym Up resize shrink height 6 px or 6 ppt
-  bindsym Right resize grow width 6 px or 6 ppt
-
-  bindsym Shift+Left resize shrink width 12 px or 12 ppt
-  bindsym Shift+Down resize grow height 12 px or 12 ppt
-  bindsym Shift+Up resize shrink height 12 px or 12 ppt
-  bindsym Shift+Right resize grow width 12 px or 12 ppt
-
-  ## Resize // Window Gaps // + - ##
-  bindsym minus gaps inner current minus 6
-  bindsym plus gaps inner current plus 6
-  bindsym Shift+minus gaps inner current minus 12
-  bindsym Shift+plus gaps inner current plus 12
-
-  ## Resize // Exit Resize Mode // Escape or Enter ## 
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-  bindsym $mod+r mode "default"
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "Resize Mode"
+bindsym $mod+r mode "resize"
 
-###############################################################################
-# Color
-###############################################################################
-
-client.focused #2E3440 #243435 #d37a32 #cf937a
-client.focused_inactive #2E3440 #243435 #CF937A #CF937A
-client.unfocused #2E3440 #243435 #ffffff #cf937a
-client.urgent #d6b2a1 #d6b2a1 #000000 #cf937a
-
-###############################################################################
-# External programs launched with i3
-###############################################################################
-
-# Custom thing
 title_align center
-workspace_layout tabbed
 default_border pixel 1
 default_floating_border pixel 1
 focus_follows_mouse yes
+focus_on_window_activation focus
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
-hide_edge_borders none
-default_border pixel 0
 
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-bindsym $mod+Prior exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+Shift+Prior exec pactl set-sink-volume 1 +5%
-bindsym $mod+Next exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+Shift+Next exec pactl set-sink-volume 1 -5%
-bindsym $mod+m exec amixer set Capture toggle
-bindsym $mod+Shift+m exec pactl set-source-volume @DEFAULT_SOURCE@ 30% 
-bindsym $mod+Shift+Delete exec systemctl poweroff -i
-
-# Control display backlight
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-# Media player controls
-bindsym XF86AudioPlay exec playerctl -p spotify play-pause  
-bindsym Pause exec playerctl -p spotify play-pause  
-bindsym XF86AudioStop exec playerctl -p spotify stop
-bindsym $mod+End exec playerctl -p spotify  next
-bindsym $mod+Home exec playerctl -p spotify previous
-bindsym Print exec gnome-screenshot -i
+bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
+bindsym $mod+Shift+n exec nemo
+bindsym $mod+Shift+d exec xrandr --auto --output $secondary --left-of $primary 
+bindsym $mod+n exec ~/code/personal/regolith-rofication/rofication-gui
+bindsym $mod+Shift+Delete exec systemctl poweroff
+bindsym $mod+Control+Delete exec systemctl reboot
+bindsym Print exec flameshot gui
+bindsym Ctrl+Print exec flameshot gui --path /home/pereira-pc/PrintScreen/
 bindsym $mod+Print exec peek
 
 
-# Jump to urgent window
-#bindsym $mod+x [urgent=latest] focus
-bindsym $mod+x split h, layout splith, focus right, move left, focus left
+bindsym $mod+Ctrl+space exec rofi -show window
+bindsym $mod+Pause exec bash ~/bin/give_memory_now.sh
 
-bindsym $mod+z split h, layout tabbed, focus right, move left, focus left
-
-
-bindsym $mod+p focus parent
-
-for_window [class="rambox"] move --no-auto-back-and-forth to workspace $ws3
-for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws3
-
-# xprop
-# xev -event keyboard
-bindsym $mod+Shift+k exec killall java chrome code node
-
-###############################################################################
-# Inicialization
-###############################################################################
-exec --no-startup-id /usr/bin/rofication-daemon
-exec_always --no-startup-id picom -b
-exec_always --no-startup-id bash /home/dfsp/me/mydotfiles/bin/launch_start.sh
+exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_rofication-daemon.sh
+exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_polybar.sh
+exec --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_docker.sh
+exec --no-startup-id mailspring -b --password-store="gnome-libsecret"
+exec --no-startup-id gnome-flashback
+exec --no-startup-id feh --bg-fill --randomize /home/pereira-pc/Pictures
 exec --no-startup-id "dbus-launch nm-applet"
+exec --no-startup-id "dex ./.gnome/apps/brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
+exec --no-startup-id autocutsel
+
+
+for_window [class="Slack"] move container to workspace $ws6
+for_window [title="WhatsApp Web"] move container to workspace $ws6
 
