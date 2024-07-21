@@ -113,7 +113,7 @@ set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "6:"
+set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -216,9 +216,7 @@ exec --no-startup-id gnome-flashback
 exec --no-startup-id feh --bg-fill --randomize /home/pereira-pc/Pictures
 exec --no-startup-id "dbus-launch nm-applet"
 exec --no-startup-id "dex ./.gnome/apps/brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
-exec --no-startup-id autocutsel
+exec --no-startup-id gromit-mpx
+exec --no-startup-id picom --daemon
 
-
-for_window [class="Slack"] move container to workspace $ws6
-for_window [title="WhatsApp Web"] move container to workspace $ws6
 
