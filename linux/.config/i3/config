@@ -1,8 +1,14 @@
 # config: ln ~/code/personal/mydotfiles/linux/.config/i3/config ~/.config/i3/config 
 
 set $mod Mod4
-set $primary HDMI-0
-set $secondary DP-4
+set $laptop DP-4
+set $middle HDMI-0
+set $vertical DP-2
+
+bindsym $mod+F1 focus output $laptop   # Focus on the first monitor
+bindsym $mod+F2 focus output $middle     # Focus on the second monitor
+bindsym $mod+F3 focus output $vertical     # Focus on the second monitor
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -143,13 +149,13 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-workspace $ws1 output $primary 
-workspace $ws2 output $primary
-workspace $ws3 output $primary
+workspace $ws1 output $laptop 
+workspace $ws4 output $middle
+workspace $ws7 output $vertical
 
-workspace $ws4 output $secodary
-workspace $ws5 output $secodary
-workspace $ws6 output $secodary
+bindsym $mod+Ctrl+right move workspace to output right
+bindsym $mod+Ctrl+left move workspace to output left
+
 
 #for_window [urgent="latest"] focus 
 
@@ -196,12 +202,14 @@ focus_on_window_activation focus
 
 bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
 bindsym $mod+Shift+n exec nemo
-bindsym $mod+Shift+d exec xrandr --auto --output $secondary --left-of $primary 
+# xrandr --output $middle --auto --left-of $laptop --output $laptop  --mode 2560x1080
+bindsym $mod+Shift+d exec xrandr --output $middle --auto --left-of $laptop --output $laptop  --mode 2560x1080
 bindsym $mod+n exec ~/code/personal/regolith-rofication/rofication-gui
 bindsym $mod+Shift+Delete exec systemctl poweroff
 bindsym $mod+Control+Delete exec systemctl reboot
-bindsym Print exec flameshot gui
-bindsym Ctrl+Print exec flameshot gui --path /home/pereira-pc/PrintScreen/
+bindsym Ctrl+Print exec flameshot gui
+bindsym Print exec flameshot full --path /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/Pictures/screenshot
+bindsym $mod+Shift+Print exec flatpak run com.github.dynobo.normcap
 bindsym $mod+Print exec peek
 
 
@@ -215,8 +223,29 @@ exec --no-startup-id mailspring -b --password-store="gnome-libsecret"
 exec --no-startup-id gnome-flashback
 exec --no-startup-id feh --bg-fill --randomize /home/pereira-pc/Pictures
 exec --no-startup-id "dbus-launch nm-applet"
-exec --no-startup-id "dex ./.gnome/apps/brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
-exec --no-startup-id gromit-mpx
-exec --no-startup-id picom --daemon
+#exec --no-startup-id "dex ./.gnome/apps/brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
+#exec --no-startup-id gromit-mpx
+# exec --no-startup-id picom --daemon
 
 
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# Tornar a janela atual em scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+m mailspring -b --password-store="gnome-libsecret"
+# Exibir a primeira janela oculta em scratchpad
+bindsym $mod+minus scratchpad show
+
+# read 1 character and mark the current window with this character
+bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+
+# read 1 character and go to the window with the character
+bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+
+# ## toggle that obisidian is force to scratchpad
+# for_window [class="slack"] move scratchpad
+# bindsysm $mod+o [class="slack"] scratchpad show
+
+# bindsym $mod+grave for_window [class=“st-256color”] scratchpad show

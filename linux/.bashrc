@@ -119,6 +119,7 @@ if ! shopt -oq posix; then
 fi
 
 export EDITOR='vim'
+export SYSTEMD_EDITOR=vim
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -129,7 +130,8 @@ export DIR_SCRIPT_TEST1="user"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH=/opt/nvim-linux64/bin:/home/pereira-pc/.local/bin/:/home/pereira-pc/bin/go/bin:$HOME/bin:$PATH
+export PATH=$HOME/.nix-profile/bin/:/opt/nvim-linux64/bin:/home/pereira-pc/.local/bin/:/home/pereira-pc/bin/go/bin:$HOME/bin:$PATH
+
 
 eval "$(starship init bash)"
 
@@ -138,7 +140,7 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git' -j 20"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export AWS_PROFILE="my"
 
-eval "$(rbenv init -)"
+#export GEM_HOME=$HOME/.gems
 
 . "$HOME/.cargo/env"
 
@@ -156,3 +158,27 @@ if ! [[ "${PROMPT_COMMAND:-}" =~ _nvmrc_hook ]]; then
 fi
 
 export _JAVA_OPTIONS='-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel' 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/.rbenv/bin"
+
+# Added by `rbenv init` on Thu Sep 26 08:17:29 AM -04 2024
+eval "$(rbenv init - --no-rehash bash)"
+
+# pnpm
+export PNPM_HOME="/mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+
+
+alias nocolor='sed "s/\x1b\[[0-9;]*[mG]//g"'
+
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+alias copy='xclip -i'
