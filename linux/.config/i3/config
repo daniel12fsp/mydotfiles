@@ -219,7 +219,7 @@ bindsym $mod+Pause exec bash ~/bin/give_memory_now.sh
 exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_rofication-daemon.sh
 exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_polybar.sh
 exec --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_docker.sh
-exec --no-startup-id mailspring -b --password-store="gnome-libsecret"
+exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_mailspring.sh
 exec --no-startup-id gnome-flashback
 exec --no-startup-id feh --bg-fill --randomize /home/pereira-pc/Pictures
 exec --no-startup-id "dbus-launch nm-applet"
