@@ -9,7 +9,7 @@ set $mod Mod4
 
 bindsym $mod+F1 focus output $laptop
 bindsym $mod+F2 focus output $middle
-bindsym $mod+F3 focus output $vertical
+bindsym $mod+F3 focus output $vertical.config/sway/config
 
 # Font for window titles and bar
 font pango:monospace, FontAwesome 8
@@ -197,7 +197,7 @@ bindsym $mod+Pause exec bash ~/bin/give_memory_now.sh
 # Autostart
 exec_always bash ~/code/personal/mydotfiles/linux/bin/launch_rofication-daemon.sh
 # Use waybar instead of polybar for Wayland
-exec_always waybar
+#exec_always waybar
 exec bash ~/code/personal/mydotfiles/linux/bin/launch_docker.sh
 exec_always bash ~/code/personal/mydotfiles/linux/bin/launch_mailspring.sh
 exec nm-applet --indicator
@@ -221,19 +221,25 @@ bindsym $mod+g exec swaymsg -t get_marks | jq -r '.[]' | wofi --dmenu -p "Goto:"
 
 # Input configuration (example — adjust for your devices)
 # Find input names with: swaymsg -t get_inputs
-# input type:touchpad {
-#     tap enabled
-#     natural_scroll enabled
-#     dwt enabled
-# }
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+}
 
 input type:keyboard {
     xkb_layout br
+    xkb_variant abnt2
 }
 
 # XWayland support for legacy X11 apps
-xwayland enable
+# xwayland enable
 
-# Include additional config files
-include /etc/sway/config.d/*
- swaymsg -t get_inputs
+# # Include additional config files
+# include /etc/sway/config.d/*
+#  swaymsg -t get_inputs
+# exec_always swaymsg inççççput type:keyboard xkb_layout br xkb_variant abnt2
+
+bar {
+    swaybar_command waybar
+}
