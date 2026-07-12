@@ -91,9 +91,35 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"   # disabled: using the custom prompt below (uncomment to restore starship)
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 source $HOME/.cargo/env
+
+# --- Custom prompt: folder + git branch + dirty indicator -----------------
+# Shows:  <dir> (branch<*>) %#
+#   dir    = current working dir (~ for $HOME)
+#   branch = git branch (or short SHA when detached), green when clean
+#   *      = red when the working tree is dirty (staged/unstaged/untracked)
+__my_git_branch() {
+    git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null
+}
+
+__my_precmd() {
+    PROMPT="%F{blue}%~%f"
+    local branch
+    branch=$(__my_git_branch)
+    if [ -n "$branch" ]; then
+        PROMPT+="["
+        PROMPT+="%F{green}${branch}%f"
+        [ -n "$(git status --porcelain 2>/dev/null)" ] && PROMPT+="%F{red}*%f"
+        PROMPT+="]"
+    fi
+    PROMPT+=$' > \n'
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __my_precmd
+
 

@@ -3,9 +3,9 @@ set -euo pipefail
 
 # Configuration
 PROJECT_DIR="/mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui_toolkit_v1"
-APP_SOURCE="./apps/searchtower"
-BINARY_PATH="/tmp/searchtower_bin"
-LOG_FILE="/tmp/searchtower.log"
+APP_SOURCE="./apps/notification"
+BINARY_PATH="/tmp/notification_bin"
+LOG_FILE="/tmp/notification.log"
 
 MODE="${1:-full}"
 

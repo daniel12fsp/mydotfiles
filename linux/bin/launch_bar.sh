@@ -8,6 +8,16 @@ BINARY_PATH="/tmp/my_bar_bin"
 PID_FILE="/tmp/my_bar.pid"
 LOG_FILE="/tmp/my_bar.log"
 
+BAR_PROFILE=0
+
+# ── Profiling control via environment variables ──
+# BAR_PROFILE=1        enables pprof on default localhost:6060
+# BAR_PPROF_ADDR=...   custom pprof address (takes precedence over BAR_PROFILE)
+if [[ "${BAR_PROFILE:-}" == "1" ]]; then
+    export BAR_PPROF_ADDR="${BAR_PPROF_ADDR:-localhost:6060}"
+fi
+# ────────────────────────────────────────────────
+
 # --- 1. Kill Logic with Timeout ---
 kill_process() {
     local target_pid=$1

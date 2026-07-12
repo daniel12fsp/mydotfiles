@@ -133,7 +133,7 @@ export DIR_SCRIPT_TEST1="user"
 export PATH=$HOME/.nix-profile/bin/:/opt/nvim-linux64/bin:/home/pereira-pc/.local/bin/:/home/pereira-pc/bin/go/bin:$HOME/bin:$PATH
 
 
-eval "$(starship init bash)"
+# eval "$(starship init bash)"   # disabled: using the custom prompt below (uncomment to restore starship)
 
 source /usr/share/doc/fzf/examples/key-bindings.bash
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git' -j 20"
@@ -182,3 +182,39 @@ alias nocolor='sed "s/\x1b\[[0-9;]*[mG]//g"'
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 alias copy='xclip -i'
+
+# --- Custom prompt: folder + git branch + dirty indicator -----------------
+# Shows:  <dir> (branch<*>) $
+#   dir    = current working dir (~ for $HOME)
+#   branch = git branch (or short SHA when detached), green when clean
+#   *      = red when the working tree is dirty (staged/unstaged/untracked)
+__my_git_branch() {
+    git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null
+}
+
+__my_prompt() {
+    local blue green red reset
+    if [ "$TERM" != dumb ]; then
+        blue=$'\033[01;34m' green=$'\033[01;32m' red=$'\033[01;31m' reset=$'\033[00m'
+    fi
+    local ps1="\[${blue}\]\\w\[${reset}\]"
+    local branch
+    branch=$(__my_git_branch)
+    if [ -n "$branch" ]; then
+        ps1+="\[${reset}\][\[${green}\]${branch}"
+        [ -n "$(git status --porcelain 2>/dev/null)" ] && ps1+="\[${red}\]*"
+        ps1+="\[${reset}\]]"
+    fi
+    ps1+=' > \n'
+    PS1="$ps1"
+}
+
+if ! [[ "${PROMPT_COMMAND:-}" =~ __my_prompt ]]; then
+    # strip any trailing separators/whitespace so we never create an empty segment
+    __my_pc="${PROMPT_COMMAND:-}"
+    __my_re='[;[:space:]]$'
+    while [[ "$__my_pc" =~ $__my_re ]]; do __my_pc="${__my_pc%?}"; done
+    PROMPT_COMMAND="${__my_pc:+$__my_pc;}__my_prompt"
+    unset __my_pc __my_re
+fi
+

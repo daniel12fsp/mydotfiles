@@ -57,7 +57,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec bash /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/mydotfiles/linux/bin/launch_searchtower.sh
+bindsym $mod+space exec bash /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/mydotfiles/linux/bin/launch_searchtower.sh run
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -208,17 +208,25 @@ bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser
 bindsym $mod+Shift+n exec nemo
 # xrandr --output $middle --auto --left-of $laptop --output $laptop  --mode 2560x1080
 bindsym $mod+Shift+d exec xrandr --output $middle --auto --left-of $laptop --output $laptop  --mode 2560x1080
-bindsym $mod+n exec ~/code/personal/regolith-rofication/rofication-gui
+bindsym $mod+n exec bash ~/code/personal/mydotfiles/linux/bin/launch_notification.sh run
 bindsym $mod+Shift+Delete exec systemctl poweroff
 bindsym $mod+Control+Delete exec systemctl reboot
 bindsym Ctrl+Print exec flameshot gui
+bindsym $mod+Shift+s exec --no-startup-id flameshot gui --delay 100
+bindsym Shift+Control+Mod1+Mod4+space exec --no-startup-id bash /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui-detector/scripts/build-and-run.sh
+bindsym $mod+x exec --no-startup-id i3lock
 bindsym Print exec flameshot full --path /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/Pictures/screenshot
 bindsym $mod+Shift+Print exec flatpak run com.github.dynobo.normcap
 bindsym $mod+Print exec peek
+bindsym $mod+bracketleft exec /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui-detector/scripts/build-and-run-trigger-mouse-event.sh scroll_up 
+bindsym $mod+bracketright exec /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui-detector/scripts/build-and-run-trigger-mouse-event.sh scroll_down
+bindsym $mod+Shift+bracketleft exec /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui-detector/scripts/build-and-run-trigger-mouse-event.sh left_click
+bindsym $mod+Shift+bracketright exec /mnt/6e55b6e6-2f8f-4cf8-9f04-e2e2cfb28569/home/code/personal/ui-detector/scripts/build-and-run-trigger-mouse-event.sh right_click 
+exec --no-startup-id "setxkbmap -layout us -variant intl"
 
 
-bindsym $mod+Ctrl+space exec rofi -show window
 bindsym $mod+Pause exec bash ~/bin/give_memory_now.sh
+exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_searchtower.sh build
 exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_bar.sh &> /tmp/launch_bar
 exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_rofication-daemon.sh
 #exec_always --no-startup-id bash ~/code/personal/mydotfiles/linux/bin/launch_polybar.sh
@@ -253,3 +261,4 @@ bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 # bindsysm $mod+o [class="slack"] scratchpad show
 
 # bindsym $mod+grave for_window [class=“st-256color”] scratchpad show
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
