@@ -1,8 +1,7 @@
 ---
-
 name: code-review
 description: Review code changes for actionable defects using minimal context and optional subagents.
-
+---
 Code Review Skill
 
 Review the provided diff for actionable defects.
