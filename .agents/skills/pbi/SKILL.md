@@ -1,12 +1,14 @@
 ---
-name: plan-before-implement
+name: pbi
 description: Create a short, implementation-ready plan after targeted read-only discovery. Do not modify files unless the user approves the plan.
-compatibility: linux, macos
 metadata:
   version: 1.0.0
 ---
 
 # Plan-Before-Implement
+
+> **Invocation:** Use this skill **only when the user explicitly invokes or names `manual-test-use-cases`**.
+> Never invoke it automatically based on code changes, testing requests, validation requests, API work, or related context.
 
 ## When to Use
 
